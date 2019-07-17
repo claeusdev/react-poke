@@ -4,7 +4,7 @@ import { Search } from './components/Search';
 
 const App: React.FC = () => {
   return <div className="App">
-    <Search name="Nana" numberOfPokemons={10} />
+    <Search name="Nana"  />
   </div>;
 };
 
