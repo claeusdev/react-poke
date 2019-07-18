@@ -38,15 +38,12 @@ export class Search extends Component<User, SearchState> {
     const { name: username, numberOfPokemons } = this.props
     const { pokemon, error } = this.state
 
-    if (error) {
-      
-    }
     return <div>
       <p>User {username}
         {numberOfPokemons && <span>has {numberOfPokemons} pokemons</span>} </p>
 
       <SearchForm pokeRef={this.pokeRef} onSearchClick={this.onSearchClick}/>
-
+      {error ? <p>Pokemon not found, try again</p> : ""}
       {pokemon && <PokeMon pokemon={pokemon} />}
     </div>;
   }
