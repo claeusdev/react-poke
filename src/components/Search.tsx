@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import User from "../interfaces/User.interface";
+// import User from "../interfaces/User.interface";
 import { PokeMon } from "./Pokemon";
 import { SearchForm } from "./SearchForm";
 import { Pokemon } from "../interfaces/Pokemon.interface";
@@ -9,9 +9,12 @@ interface SearchState {
   pokemon: Pokemon
 }
 
-export class Search extends Component<User, SearchState> {
+interface App {
+  title: string
+}
+export class Search extends Component<App, SearchState> {
   pokeRef: React.RefObject<HTMLInputElement>;
-  constructor(props: User) {
+  constructor(props: App) {
     super(props)
     this.pokeRef = React.createRef()
 
@@ -23,7 +26,7 @@ export class Search extends Component<User, SearchState> {
 
   onSearchClick = () => {
     const val = this.pokeRef.current.value
-    fetch(`https://pokeapi.co/api/v2/pokemon/${val}`).then(res => {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${val.toLocaleLowerCase()}`).then(res => {
       if (res.status !== 200) {
         this.setState({ error: true })
         return;
@@ -35,18 +38,13 @@ export class Search extends Component<User, SearchState> {
   }
 
   render() {
-    const { name: username, numberOfPokemons } = this.props
+    const { title } = this.props
     const { pokemon, error } = this.state
 
-    if (error) {
-      
-    }
-    return <div>
-      <p>User {username}
-        {numberOfPokemons && <span>has {numberOfPokemons} pokemons</span>} </p>
-
-      <SearchForm pokeRef={this.pokeRef} onSearchClick={this.onSearchClick}/>
-
+    return <div className="lh-copy center">
+      <h1 className="f3 f5-m f-subheadline-l measure lh-title fw1 mt0">{title}</h1>
+      <SearchForm pokeRef={this.pokeRef} onSearchClick={this.onSearchClick} />
+      {error ? <p>Pokemon not found, try again</p> : ""}
       {pokemon && <PokeMon pokemon={pokemon} />}
     </div>;
   }
